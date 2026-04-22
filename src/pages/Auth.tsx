@@ -36,20 +36,19 @@ export default function Auth() {
       return;
     }
     setLoading(true);
+    const creds = { email: parsed.data.email, password: parsed.data.password };
     try {
       if (mode === "signup") {
         const { error } = await supabase.auth.signUp({
-          email: parsed.data.email,
-          password: parsed.data.password,
+          ...creds,
           options: { emailRedirectTo: `${window.location.origin}/dashboard` },
         });
         if (error) throw error;
         toast.success("Account created! You can now sign in.");
-        // auto login
-        const { error: e2 } = await supabase.auth.signInWithPassword(parsed.data);
+        const { error: e2 } = await supabase.auth.signInWithPassword(creds);
         if (!e2) navigate("/dashboard");
       } else {
-        const { error } = await supabase.auth.signInWithPassword(parsed.data);
+        const { error } = await supabase.auth.signInWithPassword(creds);
         if (error) throw error;
         toast.success("Welcome back");
         navigate("/dashboard");
