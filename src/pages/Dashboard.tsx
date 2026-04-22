@@ -89,7 +89,7 @@ export default function Dashboard() {
             <h1 className="text-3xl md:text-4xl font-bold">Welcome back</h1>
             <p className="text-muted-foreground mt-1">Your fraud exposure at a glance.</p>
           </div>
-          <Button asChild className="bg-gradient-primary text-primary-foreground shadow-glow">
+          <Button asChild className="bg-gradient-primary text-primary-foreground glow-button">
             <Link to="/analyzer">
               <Sparkles className="h-4 w-4 mr-2" />
               New Scan
@@ -173,7 +173,7 @@ export default function Dashboard() {
             </ChartCard>
 
             {/* Insights */}
-            <div className="rounded-2xl glass-strong p-5 space-y-4 lg:col-span-1">
+            <div className="rounded-2xl glass-strong hover-lift p-5 space-y-4 lg:col-span-1">
               <div className="flex items-center gap-2">
                 <Lightbulb className="h-4 w-4 text-primary" />
                 <h3 className="font-semibold text-sm">Security Insights</h3>
@@ -238,7 +238,7 @@ function StatCard({ icon: Icon, label, value, accent, delay }: { icon: any; labe
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.4 }}
-      className="glass rounded-2xl p-5 group hover:shadow-glow transition-all duration-500"
+      className="glass hover-lift rounded-2xl p-5 group"
     >
       <div className={cn("inline-flex p-2 rounded-lg border mb-3", colorMap[accent])}>
         <Icon className="h-4 w-4" />
@@ -251,8 +251,8 @@ function StatCard({ icon: Icon, label, value, accent, delay }: { icon: any; labe
 
 function ChartCard({ title, children, className }: { title: string; children: React.ReactNode; className?: string }) {
   return (
-    <div className={cn("glass-strong rounded-2xl p-5", className)}>
-      <h3 className="font-semibold text-sm mb-4">{title}</h3>
+    <div className={cn("glass-strong hover-lift rounded-2xl p-5", className)}>
+      <h3 className="font-semibold text-sm mb-4 text-foreground">{title}</h3>
       {children}
     </div>
   );
@@ -287,7 +287,7 @@ function EmptyState() {
       <Shield className="h-12 w-12 text-primary mx-auto mb-4 opacity-50" />
       <h3 className="text-xl font-bold mb-2">No scans yet</h3>
       <p className="text-muted-foreground mb-6">Run your first analysis to see analytics here.</p>
-      <Button asChild className="bg-gradient-primary text-primary-foreground shadow-glow">
+      <Button asChild className="bg-gradient-primary text-primary-foreground glow-button">
         <Link to="/analyzer"><Sparkles className="h-4 w-4 mr-2" />Start First Scan</Link>
       </Button>
     </div>

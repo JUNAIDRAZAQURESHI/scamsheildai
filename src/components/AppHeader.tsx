@@ -69,7 +69,7 @@ export function AppHeader() {
               <Button variant="ghost" size="sm" asChild>
                 <Link to="/auth">Sign in</Link>
               </Button>
-              <Button size="sm" asChild className="bg-gradient-primary text-primary-foreground hover:opacity-90 shadow-glow">
+              <Button size="sm" asChild className="bg-gradient-primary text-primary-foreground glow-button">
                 <Link to="/auth?mode=signup">
                   <Sparkles className="h-4 w-4 mr-1.5" />
                   Get Started

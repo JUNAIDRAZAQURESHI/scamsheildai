@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, Loader2, AlertCircle, Wand2, FileText } from "lucide-react";
+import { Sparkles, Loader2, AlertCircle, Wand2, FileText, ShieldCheck, Link2, UserCheck, KeyRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { AppHeader } from "@/components/AppHeader";
@@ -95,7 +95,7 @@ export default function Analyzer() {
               <Button
                 onClick={analyze}
                 disabled={loading || message.trim().length < 3}
-                className="bg-gradient-primary text-primary-foreground shadow-glow hover:opacity-90 min-w-[140px]"
+                className="bg-gradient-primary text-primary-foreground glow-button min-w-[140px]"
               >
                 {loading ? (
                   <>
@@ -135,7 +135,7 @@ export default function Analyzer() {
         )}
 
         {result && (
-          <div className="space-y-4">
+          <div className="space-y-4 animate-fade-up">
             <ScanResultCard result={result} />
             {result.risk_level === "High" && (
               <motion.div
@@ -152,6 +152,29 @@ export default function Analyzer() {
             )}
           </div>
         )}
+
+        {/* Security Tips — display only */}
+        <div className="mt-8 glass-strong hover-lift rounded-2xl p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <ShieldCheck className="h-4 w-4 text-primary" />
+            <h3 className="font-semibold text-sm">Security Tips</h3>
+          </div>
+          <div className="grid sm:grid-cols-3 gap-3">
+            {[
+              { icon: KeyRound, title: "Never share OTPs", desc: "No legitimate company will ever ask for your one-time password." },
+              { icon: Link2, title: "Avoid suspicious links", desc: "Hover before you click. Shortened URLs are a common scam vector." },
+              { icon: UserCheck, title: "Verify the sender", desc: "Confirm identity through an official channel before trusting messages." },
+            ].map((t) => (
+              <div key={t.title} className="rounded-xl glass p-4 hover-lift">
+                <div className="inline-flex p-2 rounded-lg bg-primary/10 text-primary border border-primary/20 mb-3">
+                  <t.icon className="h-4 w-4" />
+                </div>
+                <p className="text-sm font-semibold mb-1">{t.title}</p>
+                <p className="text-xs text-muted-foreground leading-relaxed">{t.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </main>
     </div>
   );
