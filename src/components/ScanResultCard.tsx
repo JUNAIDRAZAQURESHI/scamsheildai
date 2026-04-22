@@ -60,7 +60,7 @@ export function ScanResultCard({ result }: Props) {
     y += 8;
     doc.setFontSize(10);
     doc.setTextColor(60, 60, 80);
-    doc.text(result.keywords.join(", ") || "none", 14, y, { maxWidth: w - 28 });
+    doc.text((result.keywords ?? []).join(", ") || "none", 14, y, { maxWidth: w - 28 });
 
     y += 20;
     doc.setFontSize(13);
