@@ -118,7 +118,7 @@ export default function Auth() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full h-11 bg-gradient-primary text-primary-foreground shadow-glow hover:opacity-90"
+              className="w-full h-11 bg-gradient-primary text-primary-foreground glow-button"
             >
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : mode === "signup" ? "Create Account" : "Sign In"}
             </Button>

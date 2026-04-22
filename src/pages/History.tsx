@@ -96,7 +96,7 @@ export default function History() {
             <Button variant="outline" onClick={handleExport} disabled={!filtered.length}>
               <Download className="h-4 w-4 mr-2" /> Export CSV
             </Button>
-            <Button asChild className="bg-gradient-primary text-primary-foreground shadow-glow">
+            <Button asChild className="bg-gradient-primary text-primary-foreground glow-button">
               <Link to="/analyzer"><Sparkles className="h-4 w-4 mr-2" />New Scan</Link>
             </Button>
           </div>
@@ -159,7 +159,7 @@ function ScanRow({ scan, delay, onDelete }: { scan: ScanResult; delay: number; o
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.3 }}
-      className="group glass rounded-xl p-4 hover:shadow-card hover:border-primary/30 transition-all"
+      className="group glass hover-lift rounded-xl p-4"
     >
       <div className="flex items-center gap-4">
         <Icon className={cn("h-5 w-5 shrink-0", colorClass)} />

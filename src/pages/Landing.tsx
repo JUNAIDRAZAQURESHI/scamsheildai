@@ -58,7 +58,7 @@ export default function Landing() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
-              <Button size="lg" asChild className="bg-gradient-primary text-primary-foreground hover:opacity-90 shadow-glow text-base h-12 px-7">
+              <Button size="lg" asChild className="bg-gradient-primary text-primary-foreground glow-button text-base h-12 px-7">
                 <Link to="/auth?mode=signup">
                   Start Scanning Free
                   <ChevronRight className="h-5 w-5 ml-1" />
@@ -131,7 +131,7 @@ export default function Landing() {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: i * 0.05 }}
               whileHover={{ y: -6 }}
-              className="group relative rounded-2xl glass p-6 transition-all duration-500 hover:shadow-glow"
+              className="group relative rounded-2xl glass hover-lift p-6"
             >
               <div className="mb-4 inline-flex p-2.5 rounded-lg bg-primary/10 text-primary border border-primary/20 group-hover:bg-gradient-primary group-hover:text-primary-foreground group-hover:border-transparent transition-all">
                 <f.icon className="h-5 w-5" />
@@ -151,7 +151,7 @@ export default function Landing() {
             <Shield className="h-12 w-12 text-primary mx-auto mb-4" />
             <h2 className="text-3xl md:text-4xl font-bold mb-3">Ready to outsmart the scammers?</h2>
             <p className="text-muted-foreground mb-6 max-w-xl mx-auto">Join thousands using AI to protect themselves and their families from fraud — for free.</p>
-            <Button size="lg" asChild className="bg-gradient-primary text-primary-foreground shadow-glow h-12 px-7 text-base">
+            <Button size="lg" asChild className="bg-gradient-primary text-primary-foreground glow-button h-12 px-7 text-base">
               <Link to="/auth?mode=signup">
                 Create Free Account
                 <ChevronRight className="h-5 w-5 ml-1" />
