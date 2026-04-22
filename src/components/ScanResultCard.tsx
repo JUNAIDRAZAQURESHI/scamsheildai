@@ -20,7 +20,7 @@ export function ScanResultCard({ result }: Props) {
       : { Icon: ShieldCheck, color: "text-success", glow: "shadow-[0_0_60px_hsl(var(--success)/0.35)]", grad: "from-success/20 to-success/5", bar: "bg-gradient-safe" };
 
   const handleCopy = () => {
-    const text = `ScamShield AI Report\n────────────────────\nRisk: ${result.risk_level} (${result.scam_score}/100)\nType: ${result.scam_type}\nConfidence: ${result.confidence}%\n\nExplanation: ${result.explanation}\n\nSuspicious keywords: ${result.keywords.join(", ") || "none"}`;
+    const text = `ScamShield AI Report\n────────────────────\nRisk: ${result.risk_level} (${result.scam_score}/100)\nType: ${result.scam_type}\nConfidence: ${result.confidence}%\n\nExplanation: ${result.explanation}\n\nSuspicious keywords: ${(result.keywords ?? []).join(", ") || "none"}`;
     navigator.clipboard.writeText(text);
     toast.success("Report copied to clipboard");
   };
