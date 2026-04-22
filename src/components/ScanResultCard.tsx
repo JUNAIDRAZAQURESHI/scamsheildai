@@ -20,7 +20,7 @@ export function ScanResultCard({ result }: Props) {
       : { Icon: ShieldCheck, color: "text-success", glow: "shadow-[0_0_60px_hsl(var(--success)/0.35)]", grad: "from-success/20 to-success/5", bar: "bg-gradient-safe" };
 
   const handleCopy = () => {
-    const text = `ScamShield AI Report\n────────────────────\nRisk: ${result.risk_level} (${result.scam_score}/100)\nType: ${result.scam_type}\nConfidence: ${result.confidence}%\n\nExplanation: ${result.explanation}\n\nSuspicious keywords: ${result.keywords.join(", ") || "none"}`;
+    const text = `ScamShield AI Report\n────────────────────\nRisk: ${result.risk_level} (${result.scam_score}/100)\nType: ${result.scam_type}\nConfidence: ${result.confidence}%\n\nExplanation: ${result.explanation}\n\nSuspicious keywords: ${(result.keywords ?? []).join(", ") || "none"}`;
     navigator.clipboard.writeText(text);
     toast.success("Report copied to clipboard");
   };
@@ -60,7 +60,7 @@ export function ScanResultCard({ result }: Props) {
     y += 8;
     doc.setFontSize(10);
     doc.setTextColor(60, 60, 80);
-    doc.text(result.keywords.join(", ") || "none", 14, y, { maxWidth: w - 28 });
+    doc.text((result.keywords ?? []).join(", ") || "none", 14, y, { maxWidth: w - 28 });
 
     y += 20;
     doc.setFontSize(13);
@@ -139,11 +139,11 @@ export function ScanResultCard({ result }: Props) {
           <p className="text-sm leading-relaxed text-muted-foreground">{result.explanation}</p>
         </div>
 
-        {result.keywords.length > 0 && (
+        {(result.keywords?.length ?? 0) > 0 && (
           <div className="space-y-2">
             <p className="text-xs text-muted-foreground font-mono uppercase tracking-widest">Suspicious Signals</p>
             <div className="flex flex-wrap gap-2">
-              {result.keywords.map((k, i) => (
+              {(result.keywords ?? []).map((k, i) => (
                 <motion.div
                   key={k + i}
                   initial={{ opacity: 0, scale: 0.8 }}
