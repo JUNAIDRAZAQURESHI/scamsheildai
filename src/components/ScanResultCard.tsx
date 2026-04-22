@@ -139,11 +139,11 @@ export function ScanResultCard({ result }: Props) {
           <p className="text-sm leading-relaxed text-muted-foreground">{result.explanation}</p>
         </div>
 
-        {result.keywords.length > 0 && (
+        {(result.keywords?.length ?? 0) > 0 && (
           <div className="space-y-2">
             <p className="text-xs text-muted-foreground font-mono uppercase tracking-widest">Suspicious Signals</p>
             <div className="flex flex-wrap gap-2">
-              {result.keywords.map((k, i) => (
+              {(result.keywords ?? []).map((k, i) => (
                 <motion.div
                   key={k + i}
                   initial={{ opacity: 0, scale: 0.8 }}
