@@ -272,14 +272,15 @@ Be precise. Always return structured output via the provided tool.`,
     const action_plan = buildActionPlan(finalScore, scamType);
     const recovery_plan = buildRecoveryPlan(finalScore);
 
-    // Persist (schema unchanged — store legacy fields)
+    // Persist — DB check constraint allows only Low/Medium/High, so map Safe -> Low for storage
+    const dbRiskLevel = finalRisk === "Safe" ? "Low" : finalRisk;
     const { data: inserted, error: insErr } = await supabase
       .from("scans")
       .insert({
         user_id: userData.user.id,
         message,
         scam_score: finalScore,
-        risk_level: finalRisk,
+        risk_level: dbRiskLevel,
         scam_type: scamType,
         explanation: ai.explanation,
         keywords: mergedKeywords,
