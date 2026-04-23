@@ -162,6 +162,39 @@ ${(result.recovery_plan?.length ?? 0) > 0 ? `Recovery Plan:\n${result.recovery_p
           <p className="text-sm leading-relaxed text-muted-foreground">{result.explanation}</p>
         </div>
 
+        {/* Psychological Analysis */}
+        <div className="space-y-3 rounded-xl glass p-4 border border-primary/20">
+          <div className="flex items-center gap-2">
+            <Brain className="h-4 w-4 text-primary" />
+            <p className="text-sm font-semibold">Psychological Analysis</p>
+          </div>
+          {(result.psychology_analysis?.tactics?.length ?? 0) > 0 ? (
+            <>
+              <div className="flex flex-wrap gap-2">
+                {result.psychology_analysis!.tactics.map((t, i) => (
+                  <motion.div
+                    key={t + i}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.45 + i * 0.05 }}
+                  >
+                    <Badge variant="outline" className="text-xs border-primary/40 bg-primary/10 text-primary">
+                      {t}
+                    </Badge>
+                  </motion.div>
+                ))}
+              </div>
+              <p className="text-xs leading-relaxed text-muted-foreground">
+                {result.psychology_analysis!.explanation}
+              </p>
+            </>
+          ) : (
+            <p className="text-xs leading-relaxed text-muted-foreground">
+              {result.psychology_analysis?.explanation || "No strong manipulation detected"}
+            </p>
+          )}
+        </div>
+
         {(result.keywords?.length ?? 0) > 0 && (
           <div className="space-y-2">
             <p className="text-xs text-muted-foreground font-mono uppercase tracking-widest">Suspicious Signals</p>
