@@ -37,7 +37,7 @@ export default function Dashboard() {
     const total = scans.length;
     const high = scans.filter((s) => s.risk_level === "High").length;
     const med = scans.filter((s) => s.risk_level === "Medium").length;
-    const low = scans.filter((s) => s.risk_level === "Low").length;
+    const low = scans.filter((s) => s.risk_level === "Low" || s.risk_level === "Safe").length;
     const avgScore = total ? Math.round(scans.reduce((a, s) => a + s.scam_score, 0) / total) : 0;
     // user safety score: inverse of average exposure, weighted by high-risk encounters
     const exposureRate = total ? high / total : 0;
