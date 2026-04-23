@@ -119,6 +119,36 @@ function buildActionPlan(score: number, scamType: string) {
   return [...base, ...(map[scamType] ?? ["Verify the sender through an official channel before any action"])];
 }
 
+type PsychTactic = "Fear" | "Urgency" | "Authority" | "Reward";
+function buildPsychologyAnalysis(message: string): { tactics: PsychTactic[]; explanation: string } {
+  const m = message.toLowerCase();
+  const tactics: PsychTactic[] = [];
+
+  const fear = /\b(arrest|warrant|legal action|police|lawsuit|fine|penalty|blocked|suspended|locked|deactivated|terminated|closed|frozen|unauthorized|breach|hacked|virus|infected)\b/i;
+  const urgency = /\b(urgent|immediately|now|today|asap|hurry|quickly|expires?|expiring|last chance|limited time|act now|within \d+\s*(min|hour|hr|day)s?|final notice|deadline)\b/i;
+  const authority = /\b(bank|irs|tax|government|police|court|fbi|cbi|customs|federal|official|hr department|microsoft|apple|google|amazon|paypal|netflix|support team|security team|admin|ceo|manager)\b/i;
+  const reward = /\b(won|winner|prize|lottery|jackpot|reward|cashback|gift card|free|congratulations|claim|bonus|refund|inheritance|grant|selected)\b/i;
+
+  if (fear.test(m)) tactics.push("Fear");
+  if (urgency.test(m)) tactics.push("Urgency");
+  if (authority.test(m)) tactics.push("Authority");
+  if (reward.test(m)) tactics.push("Reward");
+
+  if (tactics.length === 0) {
+    return { tactics: [], explanation: "No strong manipulation detected in this message." };
+  }
+
+  const phrases: Record<PsychTactic, string> = {
+    Fear: "fear of loss or punishment",
+    Urgency: "time pressure to bypass careful thinking",
+    Authority: "impersonation of a trusted institution",
+    Reward: "promise of an unexpected reward",
+  };
+  const desc = tactics.map((t) => phrases[t]).join(" and ");
+  const explanation = `This message uses ${desc} to pressure the user into reacting quickly without verification.`;
+  return { tactics, explanation };
+}
+
 function buildRecoveryPlan(score: number) {
   if (score < 70) return [];
   return [
