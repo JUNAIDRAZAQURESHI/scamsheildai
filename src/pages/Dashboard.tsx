@@ -74,7 +74,7 @@ export default function Dashboard() {
   const riskData = [
     { name: "High", value: stats.high, color: "hsl(0 90% 60%)" },
     { name: "Medium", value: stats.med, color: "hsl(38 95% 60%)" },
-    { name: "Low", value: stats.low, color: "hsl(142 75% 50%)" },
+    { name: "Safe", value: stats.low, color: "hsl(142 75% 50%)" },
   ].filter((d) => d.value > 0);
 
   const topType = typeData.sort((a, b) => b.value - a.value)[0]?.name;
