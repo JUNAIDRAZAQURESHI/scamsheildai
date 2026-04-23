@@ -174,7 +174,7 @@ function ScanRow({ scan, delay, onDelete }: { scan: ScanResult; delay: number; o
         </div>
         <div className="text-right shrink-0">
           <div className={cn("text-xl font-bold tabular-nums", colorClass)}>{scan.scam_score}</div>
-          <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">{scan.risk_level}</div>
+          <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">{risk}</div>
         </div>
         <div className="flex gap-1">
           <Dialog>
