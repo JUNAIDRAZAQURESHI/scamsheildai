@@ -341,6 +341,7 @@ Be precise. Always return structured output via the provided tool.`,
       timeline,
       action_plan,
       recovery_plan,
+      psychology_analysis,
     };
 
     return new Response(JSON.stringify(response), {
