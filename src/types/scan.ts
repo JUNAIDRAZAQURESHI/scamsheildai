@@ -22,6 +22,10 @@ export interface ScanResult {
   timeline?: TimelineStep[];
   action_plan?: string[];
   recovery_plan?: string[];
+  psychology_analysis?: {
+    tactics: string[];
+    explanation: string;
+  };
 }
 
 // Normalize legacy "Low" → "Safe" for UI consistency
