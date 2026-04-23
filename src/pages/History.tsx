@@ -46,7 +46,7 @@ export default function History() {
 
   const filtered = useMemo(() => {
     return scans.filter((s) => {
-      if (filter !== "All" && s.risk_level !== filter) return false;
+      if (filter !== "All" && normalizeRisk(s.risk_level) !== normalizeRisk(filter as RiskLevel)) return false;
       if (search && !s.message.toLowerCase().includes(search.toLowerCase()) && !s.scam_type.toLowerCase().includes(search.toLowerCase())) return false;
       return true;
     });
