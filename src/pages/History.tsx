@@ -151,9 +151,10 @@ export default function History() {
 }
 
 function ScanRow({ scan, delay, onDelete }: { scan: ScanResult; delay: number; onDelete: (id: string) => void }) {
-  const Icon = scan.risk_level === "High" ? ShieldX : scan.risk_level === "Medium" ? ShieldAlert : ShieldCheck;
+  const risk = normalizeRisk(scan.risk_level);
+  const Icon = risk === "High" ? ShieldX : risk === "Medium" ? ShieldAlert : ShieldCheck;
   const colorClass =
-    scan.risk_level === "High" ? "text-destructive" : scan.risk_level === "Medium" ? "text-warning" : "text-success";
+    risk === "High" ? "text-destructive" : risk === "Medium" ? "text-warning" : "text-success";
 
   return (
     <motion.div
