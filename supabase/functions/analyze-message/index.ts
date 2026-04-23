@@ -301,6 +301,7 @@ Be precise. Always return structured output via the provided tool.`,
     const timeline = buildTimeline(finalScore, scamType);
     const action_plan = buildActionPlan(finalScore, scamType);
     const recovery_plan = buildRecoveryPlan(finalScore);
+    const psychology_analysis = buildPsychologyAnalysis(message);
 
     // Persist — DB check constraint allows only Low/Medium/High, so map Safe -> Low for storage
     const dbRiskLevel = finalRisk === "Safe" ? "Low" : finalRisk;
