@@ -7,6 +7,7 @@ import jsPDF from "jspdf";
 import type { ScanResult } from "@/types/scan";
 import { normalizeRisk } from "@/types/scan";
 import { cn } from "@/lib/utils";
+import { ProtectionActions } from "./ProtectionActions";
 
 interface Props {
   result: ScanResult;
