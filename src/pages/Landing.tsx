@@ -47,25 +47,24 @@ export default function Landing() {
             </motion.div>
 
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.05]">
-              Stop scams before
+              Stop Scams Before
               <br />
-              <span className="text-gradient">they stop you.</span>
+              <span className="text-gradient">They Cost You Everything</span>
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Paste any suspicious SMS, WhatsApp, or email — and our hybrid AI engine returns a full fraud risk
-              breakdown in seconds. Built for the way scammers actually work in 2025.
+              Detect fraud, understand threats, and see future attack simulations instantly.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
               <Button size="lg" asChild className="bg-gradient-primary text-primary-foreground glow-button text-base h-12 px-7">
                 <Link to="/auth?mode=signup">
-                  Start Scanning Free
+                  Analyze Now
                   <ChevronRight className="h-5 w-5 ml-1" />
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" asChild className="h-12 px-7 text-base glass">
-                <Link to="/auth">Sign in</Link>
+              <Button size="lg" variant="outline" asChild className="h-12 px-7 text-base glass hover-lift">
+                <a href="#features">Learn More</a>
               </Button>
             </div>
 
@@ -115,7 +114,7 @@ export default function Landing() {
       </section>
 
       {/* Features */}
-      <section className="container py-24 md:py-32">
+      <section id="features" className="container py-24 md:py-32">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <p className="text-xs font-mono uppercase tracking-widest text-primary mb-3">Capabilities</p>
           <h2 className="text-3xl md:text-5xl font-bold mb-4">Built like a security operations center.</h2>
@@ -161,15 +160,7 @@ export default function Landing() {
         </div>
       </section>
 
-      <footer className="border-t border-border/40 py-8">
-        <div className="container flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-          <div className="flex items-center gap-2">
-            <Shield className="h-4 w-4 text-primary" />
-            <span>ScamShield AI · {new Date().getFullYear()}</span>
-          </div>
-          <p className="font-mono text-xs">Hybrid AI · Built for safety</p>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
