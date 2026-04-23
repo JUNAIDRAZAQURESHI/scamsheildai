@@ -31,8 +31,8 @@ export function AppHeader() {
             </div>
           </div>
           <div className="flex flex-col leading-none">
-            <span className="font-bold text-base tracking-tight">ScamShield</span>
-            <span className="text-[10px] font-mono text-primary uppercase tracking-widest">AI</span>
+            <span className="font-bold text-base tracking-tight text-gradient">CyberShield AI</span>
+            <span className="text-[10px] font-mono text-primary/80 uppercase tracking-widest">Threat Intelligence</span>
           </div>
         </Link>
 

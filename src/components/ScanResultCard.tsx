@@ -102,8 +102,9 @@ ${(result.recovery_plan?.length ?? 0) > 0 ? `Recovery Plan:\n${result.recovery_p
     <motion.div
       initial={{ opacity: 0, y: 24, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
+      whileHover={{ y: -8, scale: 1.01 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className={cn("relative rounded-2xl glass-strong overflow-hidden", riskMeta.glow)}
+      className={cn("relative rounded-2xl glass-strong overflow-hidden transition-shadow", riskMeta.glow)}
     >
       <div className={cn("absolute inset-0 bg-gradient-to-br opacity-60 pointer-events-none", riskMeta.grad)} />
       <div className={cn("h-1 w-full", riskMeta.bar)} />
