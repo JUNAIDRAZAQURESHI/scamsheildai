@@ -1,10 +1,11 @@
 import { motion } from "framer-motion";
-import { ShieldCheck, ShieldAlert, ShieldX, Copy, Download, Sparkles } from "lucide-react";
+import { ShieldCheck, ShieldAlert, ShieldX, Copy, Download, Sparkles, Clock, ListChecks, LifeBuoy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import jsPDF from "jspdf";
 import type { ScanResult } from "@/types/scan";
+import { normalizeRisk } from "@/types/scan";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -12,15 +13,34 @@ interface Props {
 }
 
 export function ScanResultCard({ result }: Props) {
+  const risk = normalizeRisk(result.risk_level);
+  const score = result.risk_score ?? result.scam_score;
+
   const riskMeta =
-    result.risk_level === "High"
-      ? { Icon: ShieldX, color: "text-destructive", glow: "shadow-[0_0_60px_hsl(var(--destructive)/0.4)]", grad: "from-destructive/20 to-destructive/5", bar: "bg-gradient-danger" }
-      : result.risk_level === "Medium"
-      ? { Icon: ShieldAlert, color: "text-warning", glow: "shadow-[0_0_60px_hsl(var(--warning)/0.35)]", grad: "from-warning/20 to-warning/5", bar: "bg-gradient-warn" }
-      : { Icon: ShieldCheck, color: "text-success", glow: "shadow-[0_0_60px_hsl(var(--success)/0.35)]", grad: "from-success/20 to-success/5", bar: "bg-gradient-safe" };
+    risk === "High"
+      ? { Icon: ShieldX, color: "text-destructive", glow: "shadow-[0_0_60px_hsl(var(--destructive)/0.4)]", grad: "from-destructive/20 to-destructive/5", bar: "bg-gradient-danger", chip: "bg-destructive/15 text-destructive border-destructive/40" }
+      : risk === "Medium"
+      ? { Icon: ShieldAlert, color: "text-warning", glow: "shadow-[0_0_60px_hsl(var(--warning)/0.35)]", grad: "from-warning/20 to-warning/5", bar: "bg-gradient-warn", chip: "bg-warning/15 text-warning border-warning/40" }
+      : { Icon: ShieldCheck, color: "text-success", glow: "shadow-[0_0_60px_hsl(var(--success)/0.35)]", grad: "from-success/20 to-success/5", bar: "bg-gradient-safe", chip: "bg-success/15 text-success border-success/40" };
 
   const handleCopy = () => {
-    const text = `ScamShield AI Report\n────────────────────\nRisk: ${result.risk_level} (${result.scam_score}/100)\nType: ${result.scam_type}\nConfidence: ${result.confidence}%\n\nExplanation: ${result.explanation}\n\nSuspicious keywords: ${(result.keywords ?? []).join(", ") || "none"}`;
+    const text = `CyberShield AI Report
+────────────────────
+Risk: ${risk} (${score}/100)
+Type: ${result.scam_type}
+Confidence: ${result.confidence}%
+
+Explanation: ${result.explanation}
+
+Suspicious keywords: ${(result.keywords ?? []).join(", ") || "none"}
+
+Predicted Attack Timeline:
+${(result.timeline ?? []).map(t => `  • ${t.time} — ${t.event}`).join("\n") || "  • No attack predicted"}
+
+Action Plan:
+${(result.action_plan ?? []).map(a => `  • ${a}`).join("\n") || "  • —"}
+
+${(result.recovery_plan?.length ?? 0) > 0 ? `Recovery Plan:\n${result.recovery_plan!.map(r => `  • ${r}`).join("\n")}` : ""}`;
     navigator.clipboard.writeText(text);
     toast.success("Report copied to clipboard");
   };
@@ -28,51 +48,53 @@ export function ScanResultCard({ result }: Props) {
   const handlePdf = () => {
     const doc = new jsPDF();
     const w = doc.internal.pageSize.getWidth();
-    doc.setFillColor(15, 18, 30);
+    const h = doc.internal.pageSize.getHeight();
+    doc.setFillColor(11, 18, 32);
     doc.rect(0, 0, w, 40, "F");
-    doc.setTextColor(80, 230, 220);
+    doc.setTextColor(79, 157, 255);
     doc.setFontSize(22);
-    doc.text("ScamShield AI", 14, 25);
+    doc.text("CyberShield AI", 14, 25);
     doc.setFontSize(10);
     doc.setTextColor(180, 180, 200);
-    doc.text("Fraud & Phishing Analysis Report", 14, 33);
+    doc.text("Threat Intelligence Report", 14, 33);
 
     doc.setTextColor(20, 20, 30);
     doc.setFontSize(14);
-    doc.text(`Risk Level: ${result.risk_level}`, 14, 55);
+    doc.text(`Risk Level: ${risk}`, 14, 55);
     doc.setFontSize(12);
-    doc.text(`Scam Score: ${result.scam_score}/100`, 14, 65);
+    doc.text(`Risk Score: ${score}/100`, 14, 65);
     doc.text(`Type: ${result.scam_type}`, 14, 73);
     doc.text(`Confidence: ${result.confidence}%`, 14, 81);
     doc.text(`Date: ${new Date(result.created_at).toLocaleString()}`, 14, 89);
 
-    doc.setFontSize(13);
-    doc.text("Explanation", 14, 103);
-    doc.setFontSize(11);
-    doc.setTextColor(60, 60, 80);
-    const expl = doc.splitTextToSize(result.explanation, w - 28);
-    doc.text(expl, 14, 111);
+    let y = 103;
+    const section = (title: string) => {
+      if (y > h - 30) { doc.addPage(); y = 20; }
+      doc.setFontSize(13); doc.setTextColor(20, 20, 30); doc.text(title, 14, y); y += 7;
+      doc.setFontSize(10); doc.setTextColor(60, 60, 80);
+    };
+    const para = (text: string) => {
+      const lines = doc.splitTextToSize(text, w - 28);
+      lines.forEach((ln: string) => {
+        if (y > h - 15) { doc.addPage(); y = 20; }
+        doc.text(ln, 14, y); y += 5;
+      });
+      y += 4;
+    };
 
-    let y = 111 + expl.length * 6 + 10;
-    doc.setFontSize(13);
-    doc.setTextColor(20, 20, 30);
-    doc.text("Suspicious Keywords", 14, y);
-    y += 8;
-    doc.setFontSize(10);
-    doc.setTextColor(60, 60, 80);
-    doc.text((result.keywords ?? []).join(", ") || "none", 14, y, { maxWidth: w - 28 });
+    section("Explanation"); para(result.explanation);
+    section("Suspicious Keywords"); para((result.keywords ?? []).join(", ") || "none");
+    section("Predicted Attack Timeline");
+    (result.timeline ?? [{ time: "—", event: "No attack predicted" }]).forEach(t => para(`• ${t.time} — ${t.event}`));
+    section("Action Plan");
+    (result.action_plan ?? []).forEach(a => para(`• ${a}`));
+    if ((result.recovery_plan?.length ?? 0) > 0) {
+      section("Recovery Plan");
+      result.recovery_plan!.forEach(r => para(`• ${r}`));
+    }
+    section("Original Message"); para(result.message);
 
-    y += 20;
-    doc.setFontSize(13);
-    doc.setTextColor(20, 20, 30);
-    doc.text("Original Message", 14, y);
-    y += 8;
-    doc.setFontSize(9);
-    doc.setTextColor(80, 80, 100);
-    const msg = doc.splitTextToSize(result.message, w - 28);
-    doc.text(msg, 14, y);
-
-    doc.save(`scamshield-report-${result.id.slice(0, 8)}.pdf`);
+    doc.save(`cybershield-report-${result.id.slice(0, 8)}.pdf`);
     toast.success("PDF report downloaded");
   };
 
@@ -99,7 +121,7 @@ export function ScanResultCard({ result }: Props) {
             </motion.div>
             <div>
               <p className="text-xs text-muted-foreground font-mono uppercase tracking-widest">Risk Level</p>
-              <h3 className={cn("text-2xl md:text-3xl font-bold", riskMeta.color)}>{result.risk_level}</h3>
+              <h3 className={cn("text-2xl md:text-3xl font-bold", riskMeta.color)}>{risk}</h3>
             </div>
           </div>
 
@@ -114,17 +136,17 @@ export function ScanResultCard({ result }: Props) {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-          <Stat label="Scam Score" value={`${result.scam_score}`} suffix="/100" />
+          <Stat label="Risk Score" value={`${score}`} suffix="/100" />
           <Stat label="Confidence" value={`${result.confidence}`} suffix="%" />
           <Stat label="Type" value={result.scam_type} className="col-span-2 md:col-span-1" />
         </div>
 
         <div>
-          <p className="text-xs text-muted-foreground font-mono uppercase tracking-widest mb-2">Score Distribution</p>
+          <p className="text-xs text-muted-foreground font-mono uppercase tracking-widest mb-2">Threat Score</p>
           <div className="h-3 rounded-full bg-secondary/60 overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
-              animate={{ width: `${result.scam_score}%` }}
+              animate={{ width: `${score}%` }}
               transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
               className={cn("h-full rounded-full", riskMeta.bar)}
             />
@@ -156,6 +178,79 @@ export function ScanResultCard({ result }: Props) {
                 </motion.div>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* Predicted Attack Timeline */}
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <Clock className="h-4 w-4 text-primary" />
+            <p className="text-sm font-semibold">Predicted Attack Timeline</p>
+          </div>
+          <div className="relative pl-6 space-y-3 border-l border-border/60">
+            {(result.timeline ?? [{ time: "—", event: "No attack predicted" }]).map((step, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.5 + i * 0.08 }}
+                className="relative"
+              >
+                <span className={cn("absolute -left-[27px] top-1.5 h-3 w-3 rounded-full border-2 border-background", risk === "High" ? "bg-destructive" : risk === "Medium" ? "bg-warning" : "bg-success")} />
+                <div className="flex items-baseline gap-3 flex-wrap">
+                  <Badge variant="outline" className={cn("font-mono text-[10px]", riskMeta.chip)}>{step.time}</Badge>
+                  <p className="text-sm text-muted-foreground">{step.event}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Action Plan */}
+        {(result.action_plan?.length ?? 0) > 0 && (
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <ListChecks className="h-4 w-4 text-primary" />
+              <p className="text-sm font-semibold">Action Plan — Do This Now</p>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-2">
+              {result.action_plan!.map((a, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.55 + i * 0.04 }}
+                  className="flex items-start gap-2 rounded-lg glass p-3"
+                >
+                  <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
+                  <p className="text-xs leading-relaxed text-foreground/90">{a}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Recovery Plan — only for High risk */}
+        {(result.recovery_plan?.length ?? 0) > 0 && (
+          <div className="space-y-3 rounded-xl border border-destructive/30 bg-destructive/5 p-4">
+            <div className="flex items-center gap-2">
+              <LifeBuoy className="h-4 w-4 text-destructive" />
+              <p className="text-sm font-semibold text-destructive">Recovery Plan — If You Already Engaged</p>
+            </div>
+            <ul className="space-y-1.5">
+              {result.recovery_plan!.map((r, i) => (
+                <motion.li
+                  key={i}
+                  initial={{ opacity: 0, x: -6 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.6 + i * 0.04 }}
+                  className="flex items-start gap-2 text-xs text-foreground/90"
+                >
+                  <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-destructive shrink-0" />
+                  <span className="leading-relaxed">{r}</span>
+                </motion.li>
+              ))}
+            </ul>
           </div>
         )}
       </div>
