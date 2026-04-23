@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ShieldCheck, ShieldAlert, ShieldX, Copy, Download, Sparkles, Clock, ListChecks, LifeBuoy } from "lucide-react";
+import { ShieldCheck, ShieldAlert, ShieldX, Copy, Download, Sparkles, Clock, ListChecks, LifeBuoy, Brain } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
