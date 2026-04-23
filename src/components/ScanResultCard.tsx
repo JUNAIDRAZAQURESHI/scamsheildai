@@ -7,6 +7,7 @@ import jsPDF from "jspdf";
 import type { ScanResult } from "@/types/scan";
 import { normalizeRisk } from "@/types/scan";
 import { cn } from "@/lib/utils";
+import { ProtectionActions } from "./ProtectionActions";
 
 interface Props {
   result: ScanResult;
@@ -287,6 +288,9 @@ ${(result.recovery_plan?.length ?? 0) > 0 ? `Recovery Plan:\n${result.recovery_p
             </ul>
           </div>
         )}
+
+        {/* Immediate Protection Actions — risk-based */}
+        <ProtectionActions result={result} />
       </div>
     </motion.div>
   );
