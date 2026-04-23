@@ -285,6 +285,7 @@ ${(result.recovery_plan?.length ?? 0) > 0 ? `Recovery Plan:\n${result.recovery_p
                   <span className="leading-relaxed">{r}</span>
                 </motion.li>
               ))}
+            </ul>
           </div>
         )}
 
