@@ -37,7 +37,7 @@ export default function Dashboard() {
     const total = scans.length;
     const high = scans.filter((s) => s.risk_level === "High").length;
     const med = scans.filter((s) => s.risk_level === "Medium").length;
-    const low = scans.filter((s) => s.risk_level === "Low").length;
+    const low = scans.filter((s) => s.risk_level === "Low" || s.risk_level === "Safe").length;
     const avgScore = total ? Math.round(scans.reduce((a, s) => a + s.scam_score, 0) / total) : 0;
     // user safety score: inverse of average exposure, weighted by high-risk encounters
     const exposureRate = total ? high / total : 0;
@@ -74,7 +74,7 @@ export default function Dashboard() {
   const riskData = [
     { name: "High", value: stats.high, color: "hsl(0 90% 60%)" },
     { name: "Medium", value: stats.med, color: "hsl(38 95% 60%)" },
-    { name: "Low", value: stats.low, color: "hsl(142 75% 50%)" },
+    { name: "Safe", value: stats.low, color: "hsl(142 75% 50%)" },
   ].filter((d) => d.value > 0);
 
   const topType = typeData.sort((a, b) => b.value - a.value)[0]?.name;
@@ -205,7 +205,7 @@ export default function Dashboard() {
                           "h-2 w-2 rounded-full shrink-0",
                           s.risk_level === "High" && "bg-destructive shadow-[0_0_10px_hsl(var(--destructive))]",
                           s.risk_level === "Medium" && "bg-warning shadow-[0_0_10px_hsl(var(--warning))]",
-                          s.risk_level === "Low" && "bg-success shadow-[0_0_10px_hsl(var(--success))]"
+                          (s.risk_level === "Low" || s.risk_level === "Safe") && "bg-success shadow-[0_0_10px_hsl(var(--success))]"
                         )}
                       />
                       <p className="text-sm truncate text-muted-foreground group-hover:text-foreground transition-colors">{s.message.slice(0, 100)}</p>

@@ -19,9 +19,10 @@ import {
 } from "@/components/ui/dialog";
 import { ScanResultCard } from "@/components/ScanResultCard";
 import type { RiskLevel, ScanResult } from "@/types/scan";
+import { normalizeRisk } from "@/types/scan";
 import { cn } from "@/lib/utils";
 
-const filters: (RiskLevel | "All")[] = ["All", "High", "Medium", "Low"];
+const filters: (RiskLevel | "All")[] = ["All", "High", "Medium", "Safe"];
 
 export default function History() {
   const { user } = useAuth();
@@ -45,7 +46,7 @@ export default function History() {
 
   const filtered = useMemo(() => {
     return scans.filter((s) => {
-      if (filter !== "All" && s.risk_level !== filter) return false;
+      if (filter !== "All" && normalizeRisk(s.risk_level) !== normalizeRisk(filter as RiskLevel)) return false;
       if (search && !s.message.toLowerCase().includes(search.toLowerCase()) && !s.scam_type.toLowerCase().includes(search.toLowerCase())) return false;
       return true;
     });
@@ -150,9 +151,10 @@ export default function History() {
 }
 
 function ScanRow({ scan, delay, onDelete }: { scan: ScanResult; delay: number; onDelete: (id: string) => void }) {
-  const Icon = scan.risk_level === "High" ? ShieldX : scan.risk_level === "Medium" ? ShieldAlert : ShieldCheck;
+  const risk = normalizeRisk(scan.risk_level);
+  const Icon = risk === "High" ? ShieldX : risk === "Medium" ? ShieldAlert : ShieldCheck;
   const colorClass =
-    scan.risk_level === "High" ? "text-destructive" : scan.risk_level === "Medium" ? "text-warning" : "text-success";
+    risk === "High" ? "text-destructive" : risk === "Medium" ? "text-warning" : "text-success";
 
   return (
     <motion.div
@@ -172,7 +174,7 @@ function ScanRow({ scan, delay, onDelete }: { scan: ScanResult; delay: number; o
         </div>
         <div className="text-right shrink-0">
           <div className={cn("text-xl font-bold tabular-nums", colorClass)}>{scan.scam_score}</div>
-          <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">{scan.risk_level}</div>
+          <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">{risk}</div>
         </div>
         <div className="flex gap-1">
           <Dialog>
