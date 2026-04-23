@@ -19,9 +19,10 @@ import {
 } from "@/components/ui/dialog";
 import { ScanResultCard } from "@/components/ScanResultCard";
 import type { RiskLevel, ScanResult } from "@/types/scan";
+import { normalizeRisk } from "@/types/scan";
 import { cn } from "@/lib/utils";
 
-const filters: (RiskLevel | "All")[] = ["All", "High", "Medium", "Low"];
+const filters: (RiskLevel | "All")[] = ["All", "High", "Medium", "Safe"];
 
 export default function History() {
   const { user } = useAuth();
