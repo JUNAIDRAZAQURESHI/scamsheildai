@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Shield, Zap, BarChart3, Lock, Sparkles, ChevronRight, ShieldCheck, Eye, Brain, Mail, MessageSquare, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AppHeader } from "@/components/AppHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 
 const features = [
   { icon: Brain, title: "Hybrid AI Engine", desc: "Combines large language models with rule-based detection for unmatched accuracy across phishing, OTP fraud, and prize scams." },
