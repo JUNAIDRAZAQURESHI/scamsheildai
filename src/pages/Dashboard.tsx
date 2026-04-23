@@ -205,7 +205,7 @@ export default function Dashboard() {
                           "h-2 w-2 rounded-full shrink-0",
                           s.risk_level === "High" && "bg-destructive shadow-[0_0_10px_hsl(var(--destructive))]",
                           s.risk_level === "Medium" && "bg-warning shadow-[0_0_10px_hsl(var(--warning))]",
-                          s.risk_level === "Low" && "bg-success shadow-[0_0_10px_hsl(var(--success))]"
+                          (s.risk_level === "Low" || s.risk_level === "Safe") && "bg-success shadow-[0_0_10px_hsl(var(--success))]"
                         )}
                       />
                       <p className="text-sm truncate text-muted-foreground group-hover:text-foreground transition-colors">{s.message.slice(0, 100)}</p>
