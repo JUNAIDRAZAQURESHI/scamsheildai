@@ -30,87 +30,140 @@ export default function Landing() {
         <div className="absolute inset-0 grid-bg opacity-40" />
         <div className="absolute inset-0 bg-gradient-hero" />
 
-        <div className="container relative pt-20 pb-32 md:pt-32 md:pb-40">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="max-w-4xl mx-auto text-center space-y-8"
-          >
+        {/* Glowing orbs */}
+        <div className="absolute top-1/4 -left-20 h-72 w-72 rounded-full bg-primary/20 blur-[120px] animate-float" />
+        <div className="absolute bottom-1/4 -right-20 h-80 w-80 rounded-full bg-accent/20 blur-[120px] animate-float" style={{ animationDelay: "1.5s" }} />
+
+        <div className="container relative pt-16 pb-24 md:pt-24 md:pb-32">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* LEFT — copy + CTAs */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.1 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass border border-primary/20"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+              className="space-y-8 text-center lg:text-left"
             >
-              <Sparkles className="h-3.5 w-3.5 text-primary" />
-              <span className="text-xs font-medium font-mono uppercase tracking-wider">AI-Powered Cybersecurity</span>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.1 }}
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass border border-primary/20"
+              >
+                <Sparkles className="h-3.5 w-3.5 text-primary" />
+                <span className="text-xs font-medium font-mono uppercase tracking-wider">AI-Powered Cybersecurity</span>
+              </motion.div>
+
+              <h1 className="text-5xl md:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.05]">
+                Stop Scams Before
+                <br />
+                <span className="text-gradient">They Cost You Everything</span>
+              </h1>
+
+              <p className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                Analyze suspicious messages in seconds with AI-powered cybersecurity intelligence.
+              </p>
+
+              <div className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-3 pt-2">
+                <Button size="lg" asChild className="bg-gradient-primary text-primary-foreground glow-button text-base h-12 px-7">
+                  <Link to="/auth?mode=signup">
+                    Analyze Message
+                    <ChevronRight className="h-5 w-5 ml-1" />
+                  </Link>
+                </Button>
+                <Button size="lg" variant="outline" asChild className="h-12 px-7 text-base glass hover-lift">
+                  <a href="#features">View Demo</a>
+                </Button>
+              </div>
+
+              <div className="flex items-center justify-center lg:justify-start gap-6 pt-4 text-sm text-muted-foreground">
+                {channels.map((c) => (
+                  <div key={c.label} className="flex items-center gap-2">
+                    <c.icon className="h-4 w-4 text-primary" />
+                    <span>{c.label}</span>
+                  </div>
+                ))}
+              </div>
             </motion.div>
 
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.05]">
-              Stop Scams Before
-              <br />
-              <span className="text-gradient">They Cost You Everything</span>
-            </h1>
+            {/* RIGHT — floating AI security cards */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.9, delay: 0.3 }}
+              className="relative h-[460px] md:h-[520px] hidden lg:block"
+            >
+              <div className="absolute inset-0 bg-gradient-primary blur-3xl opacity-20 rounded-full" />
 
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Detect fraud, understand threats, and see future attack simulations instantly.
-            </p>
+              <motion.div
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute top-4 left-0 right-8 glass-strong rounded-2xl p-5 shadow-elevated z-20"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <div className="h-2.5 w-2.5 rounded-full bg-destructive/80" />
+                    <div className="h-2.5 w-2.5 rounded-full bg-warning/80" />
+                    <div className="h-2.5 w-2.5 rounded-full bg-success/80" />
+                  </div>
+                  <span className="text-[10px] font-mono text-muted-foreground">cybershield.ai/scan</span>
+                </div>
+                <div className="rounded-lg bg-secondary/40 p-3 font-mono text-xs mb-4 border border-border/50">
+                  "URGENT: Your bank account has been suspended. Verify identity now: bit.ly/sec-verify"
+                </div>
+                <div className="flex items-center justify-between p-3 rounded-lg bg-destructive/10 border border-destructive/30 shadow-[0_0_30px_hsl(var(--destructive)/0.25)]">
+                  <div>
+                    <div className="text-[10px] font-mono uppercase text-destructive/80 tracking-widest">Verdict</div>
+                    <div className="text-sm font-bold text-destructive">High Risk · Phishing</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-2xl font-bold text-destructive">94<span className="text-xs text-muted-foreground">/100</span></div>
+                  </div>
+                </div>
+              </motion.div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
-              <Button size="lg" asChild className="bg-gradient-primary text-primary-foreground glow-button text-base h-12 px-7">
-                <Link to="/auth?mode=signup">
-                  Analyze Now
-                  <ChevronRight className="h-5 w-5 ml-1" />
-                </Link>
-              </Button>
-              <Button size="lg" variant="outline" asChild className="h-12 px-7 text-base glass hover-lift">
-                <a href="#features">Learn More</a>
-              </Button>
-            </div>
+              <motion.div
+                animate={{ y: [0, 12, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                className="absolute bottom-16 -left-2 glass-strong rounded-xl p-4 w-56 z-30 shadow-elevated border border-primary/20"
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="h-7 w-7 rounded-md bg-primary/15 flex items-center justify-center">
+                    <Brain className="h-3.5 w-3.5 text-primary" />
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-mono uppercase text-muted-foreground">AI Engine</div>
+                    <div className="text-xs font-semibold">Hybrid Detection</div>
+                  </div>
+                </div>
+                <div className="h-1.5 rounded-full bg-secondary overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: "92%" }}
+                    transition={{ duration: 1.5, delay: 0.8 }}
+                    className="h-full bg-gradient-primary"
+                  />
+                </div>
+                <div className="text-[10px] text-muted-foreground mt-1.5 font-mono">Confidence 92%</div>
+              </motion.div>
 
-            <div className="flex items-center justify-center gap-6 pt-8 text-sm text-muted-foreground">
-              {channels.map((c) => (
-                <div key={c.label} className="flex items-center gap-2">
-                  <c.icon className="h-4 w-4 text-primary" />
-                  <span>{c.label}</span>
+              <motion.div
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                className="absolute bottom-2 right-2 glass-strong rounded-xl p-4 w-52 z-10 shadow-elevated border border-success/20"
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="h-7 w-7 rounded-md bg-success/15 flex items-center justify-center">
+                    <ShieldCheck className="h-3.5 w-3.5 text-success" />
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-mono uppercase text-muted-foreground">Protected</div>
+                    <div className="text-xs font-semibold">12,847 scans</div>
+                  </div>
                 </div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Floating preview card */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="relative max-w-3xl mx-auto mt-20"
-          >
-            <div className="absolute inset-0 bg-gradient-primary blur-3xl opacity-20 rounded-full" />
-            <div className="relative glass-strong rounded-2xl p-6 md:p-8 shadow-elevated animate-float">
-              <div className="flex items-center justify-between mb-5">
-                <div className="flex items-center gap-2">
-                  <div className="h-2.5 w-2.5 rounded-full bg-destructive/80" />
-                  <div className="h-2.5 w-2.5 rounded-full bg-warning/80" />
-                  <div className="h-2.5 w-2.5 rounded-full bg-success/80" />
-                </div>
-                <span className="text-xs font-mono text-muted-foreground">scamshield.ai/analyzer</span>
-              </div>
-              <div className="rounded-lg bg-secondary/40 p-4 font-mono text-sm mb-5 border border-border/50">
-                "URGENT: Your bank account has been suspended. Verify identity now: bit.ly/sec-verify"
-              </div>
-              <div className="flex items-center justify-between p-4 rounded-lg bg-gradient-danger/10 border border-destructive/30">
-                <div>
-                  <div className="text-xs font-mono uppercase text-destructive/80 tracking-widest">Verdict</div>
-                  <div className="text-xl font-bold text-destructive">High Risk · Phishing</div>
-                </div>
-                <div className="text-right">
-                  <div className="text-3xl font-bold text-destructive">94<span className="text-base text-muted-foreground">/100</span></div>
-                  <div className="text-xs text-muted-foreground">scam score</div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+                <div className="text-[10px] text-success font-mono">↑ 18% this week</div>
+              </motion.div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
