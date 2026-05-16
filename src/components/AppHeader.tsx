@@ -44,15 +44,16 @@ export function AppHeader() {
                 to={item.to}
                 className={({ isActive }) =>
                   cn(
-                    "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all",
+                    "group relative flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all hover:scale-[1.04]",
                     isActive
                       ? "bg-primary/10 text-primary shadow-[inset_0_0_0_1px_hsl(var(--primary)/0.3)]"
-                      : "text-muted-foreground hover:text-foreground hover:bg-secondary/60"
+                      : "text-muted-foreground hover:text-foreground"
                   )
                 }
               >
                 <item.icon className="h-4 w-4" />
                 {item.label}
+                <span className="pointer-events-none absolute left-3 right-3 -bottom-0.5 h-px bg-gradient-primary scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300 shadow-[0_0_10px_hsl(var(--primary)/0.7)]" />
               </NavLink>
             ))}
           </nav>
