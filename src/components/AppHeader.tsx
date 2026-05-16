@@ -6,9 +6,9 @@ import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/analyzer", label: "Analyzer", icon: Search },
+  { to: "/analyzer", label: "Analyze", icon: Search },
   { to: "/history", label: "History", icon: HistoryIcon },
+  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
 ];
 
 export function AppHeader() {
